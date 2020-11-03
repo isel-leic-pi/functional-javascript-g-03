@@ -6,25 +6,23 @@ const BufferList = require('bl')
 
 let url = process.argv[2]
 
-http.get(url, (res) => {
+http.get(url, (response) => {
     let error;
     if (error) {
         console.error(error.message);
-        res.resume();
+        response.resume();
         return;
     }
-    res.setEncoding('utf8');
-    let rawData = [];
-    var bl = new BufferList((err, response) => {
-        response.pipe//?????????
-    })
-    res.on('data', (chunk) => { bl.append(chunk); });
-    res.on('end', () => {
+    response.setEncoding('utf8');
+    let rawData;
+    response.pipe(BufferList(function (err, data) {
+        console.log(data.length)
+        console.log(data.toString())
+    }))
+    response.on('end', () => {
         try {
-            console.log(bl.length)
-            rawData.forEach(element => {
-                console.log(element)
-            })
+            //console.log(bl.length)
+            //console.log(bl)
         } catch (e) {
             console.error(e.message);
         }
@@ -32,3 +30,15 @@ http.get(url, (res) => {
     }).on('error', (e) => {
         console.error(`Got error: ${e.message}`);
 });
+
+/* 
+http.get(process.argv[2], function (response) {
+  response.pipe(bl(function (err, data) {
+    if (err)
+      return console.error(err)
+    data = data.toString()
+    console.log(data.length)
+    console.log(data)
+  }))
+})
+*/
