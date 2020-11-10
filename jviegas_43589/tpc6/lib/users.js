@@ -32,30 +32,29 @@ function getUser(username, cb) {
 function addUser(username, cb) {
     getUser(username, (err, user) => {
         if (err === null) {
-            cb(new Error(`User ${username} already exists`))
+            return cb(new Error(`User ${username} already exists`))
         }
-        else {
-            let fileContents = []
-            fs.readFile(PATH_USERS, (err, buffer) => {
+        let fileContents = []
+        fs.readFile(PATH_USERS, (err, buffer) => {
+            if (err) {
+                console.log(err)
+                return cb(err)
+            }
+            fileContents = JSON.parse(buffer)
+            let newUser = {
+                username : `${username}`
+            }
+            fileContents.push(newUser)
+            const toWrite = JSON.stringify(fileContents)
+            fs.writeFile(PATH_USERS, toWrite , (err) => {
                 if (err) {
-                    console.log(err)
+                    console.log(`Error writing to file`)
                     cb(err)
                 }
-                fileContents = JSON.parse(buffer)
-                let newUser = {
-                    username : `${username}`
-                }
-                fileContents.push(newUser)
-                let toWrite = JSON.stringify(fileContents)
-                fs.writeFile(PATH_USERS, toWrite , (err) => {
-                    if (err) {
-                        console.log(`Error writing to file`)
-                        cb(err)
-                    }
-                    console.log(`User ${username} successfully added`)
-                })
+                console.log(`User ${username} successfully added`)
+                cb(null, newUser)
             })
-        }
+        })
     })
 }
 

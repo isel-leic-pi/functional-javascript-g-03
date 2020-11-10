@@ -4,12 +4,7 @@ const vinyl = require('./lib/vinyl')
 const users = require('./lib/users.js')
 const lastfm = require('./lib/lastfm.js')
  
-/*
-vinyl.getTopTracks('gamboa', 3, (err, tracks) => {
-    if(err) console.log(err)
-    else
-        tracks.forEach(t => console.log(t))   
-})
+
 
 users.addUser('josefino', (err) => {
     if (err)
@@ -22,6 +17,19 @@ users.addUser('mário', (err) => {
 users.addUser('josefino', (err) => {
     if (err)
     console.log(err)
+})
+
+users.addUser('barnabé', (err) => {
+    if (err)
+    console.log(err)
+})
+
+
+/*
+vinyl.getTopTracks('gamboa', 3, (err, tracks) => {
+    if(err) console.log(err)
+    else
+        tracks.forEach(t => console.log(t))   
 })
 
 users.addArtist('josefino', 'Avenged Sevenfold', (err) => {
@@ -56,7 +64,7 @@ users.getUser('kaskdh', (err, user) => {
 */
 
 
-
+/*
 lastfm.searchArtist('Metallica', (err, artist) => {
     if (err) {
         console.log(err)
@@ -78,3 +86,4 @@ lastfm.searchArtist('AbsentArtist', (err, artist) => {
     }
     else console.log(`Lastfm does not contain AbsentArtist`)
 })
+*/
