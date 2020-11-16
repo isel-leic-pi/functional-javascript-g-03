@@ -42,7 +42,8 @@ function addUser(username, cb) {
             }
             fileContents = JSON.parse(buffer)
             let newUser = {
-                username : `${username}`
+                username : `${username}`,
+				artists : []
             }
             fileContents.push(newUser)
             const toWrite = JSON.stringify(fileContents)
