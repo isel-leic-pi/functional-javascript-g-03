@@ -16,13 +16,42 @@ let js = {
     "expires_in": 4725712,
     "token_type": "bearer"
 }
+const router = Router()
 
-function getPopularGames(req, res) {
-    // https://www.igdb.com/top-100/games
-    let url = ""
-    services.getPopularGames
-}
+// popular game
+router.get('/games/', (req, resp, next) => {
+    // https://api.igdb.com/v4/search
+    const url = parse(req.url, true)
+    let name = url.pathname.split('/').pop()
+    services.getGame(name, (err, game) => {
+        if(err) {
+            res.statusCode = err.code
+            res.end(`${err.message} \nError code ${err.code}`)
+        } else {
+            res.statusCode = 200
+            res.setHeader('content-type', 'application/json')
+            res.end(JSON.stringify(game))
+        }
+    })
+})
 
+// search game
+router.get('/games/search/:game', (req, resp, next) => {
+    // https://api.igdb.com/v4/search
+    const url = parse(req.url, true)
+    let name = url.pathname.split('/').pop()
+    services.getGame(name, (err, game) => {
+        if(err) {
+            res.statusCode = err.code
+            res.end(`${err.message} \nError code ${err.code}`)
+        } else {
+            res.statusCode = 200
+            res.setHeader('content-type', 'application/json')
+            res.end(JSON.stringify(game))
+        }
+    })
+})
+/*
 function getGame(req, res) {
     // https://www.igdb.com/search?type=1&q=the+witcher
     const url = parse(req.url, true)
@@ -38,10 +67,25 @@ function getGame(req, res) {
         }
     })
 }
+*/
 
-function createGroup(req, res) {
-    covidadb.createGroup()
-}
+
+// create group
+router.post('groups/:groupid', (req, res, next) => {
+    const url = parse(req.url, true)
+    let name = url.query.name
+    let description = url.query.description
+    services.createGroup(name, description, (err, message) => {
+        if(err) {
+            res.statusCode = err.code
+            res.end(`${err.message} \nError code ${err.code}`)
+        } else {
+            res.statusCode = 200
+            res.setHeader('content-type', 'application/json')
+            res.end(JSON.stringify(message))
+        }
+    })
+})
 
 function getGroups(req, res) {
     // covida.getGroup()
