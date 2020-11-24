@@ -1,0 +1,19 @@
+{
+  "name": "parte_1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "covida-server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "urllib": "^2.36.1"
+  }
+}
