@@ -20,7 +20,28 @@ function getPopularGames(name, callback) {
                 'Client-ID' : cid,
                 'Authorization' : bat
             },
-            body : {"fields" : "*"}
+            content : "fields  id, name, rating; limit 10; where rating >= 90;"
+        }, 
+        (err, data, res)=> {
+            let obj = JSON.parse(data)
+            if(obj.length == 0)
+                callback({'code' : "404", 'message' : "No content"}, null)
+            else if(!checkError(200, callback, err, res, body))
+                callback(null, obj)
+    })
+
+}
+
+function getGame(game, callback) {
+    const url = `${base_url}`+'games'
+    urllib.request(url,{ 
+            method:'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+                'Client-ID' : cid,
+                'Authorization' : bat
+            },
+            content : `fields *;search"${game}";`
         }, 
         (err, data, res)=> {
             let obj = JSON.parse(data)
@@ -29,23 +50,7 @@ function getPopularGames(name, callback) {
             else if(!checkError(200, callback, err, res, body))
                 callback(null, obj)
     })
-
 }
-/*
-function getPopGames(name, callback) {
-    const url = `${baseUrl}search`+cid+at
-    request.body = {
-        fields : '*',
-        where : 'rating >= 90'
-        }
-    request.post(url, (err, res, body) => {
-        let obj = JSON.parse(body)
-        if(obj.games.length == 0)
-            callback({'code' : "404", 'message' : "Game not Found"}, null)
-        else if(!checkError(200, callback, err, res, body))
-            callback(null, obj)
-    })
-}*/
 
 function createGroup(name, description, callback) {
     database.create(databaseName)
